@@ -6,10 +6,13 @@ import api.Graph;
  * Implementation of a basic web crawler that creates a graph of some
  * portion of the world wide web.
  *
- * @author PLEASE FILL IN TEAM MEMBER NAMES HERE
+ * @author Trevor Smith && Jordan Silvers
  */
 public class Crawler
 {
+  private String SEED_URL;
+  private int MAX_DEPTH;
+  private int MAX_PAGES;
   /**
    * Constructs a Crawler that will start with the given seed url, including
    * only up to maxPages pages at distance up to maxDepth from the seed url.
@@ -19,7 +22,9 @@ public class Crawler
    */
   public Crawler(String seedUrl, int maxDepth, int maxPages)
   {
-    // TODO
+    this.SEED_URL = seedUrl;
+    this.MAX_DEPTH = maxDepth;
+    this.MAX_PAGES = maxPages;
   }
   
   /**
