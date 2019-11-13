@@ -1,5 +1,10 @@
 package pa1;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Queue;
+
 import api.Graph;
 
 /**
@@ -36,7 +41,43 @@ public class Crawler
    */
   public Graph<String> crawl()
   {
-    // TODO
-    return null;
+    String currentPage;
+    int currentDepth = 0, currentWidth = 0;
+    Integer inTemp;
+    HashMap<> indegree = new HashMap<>();
+    indegree.put(SEED_URL, 0);
+    Graph<String> g = new Graph<Spring>();
+    g.add(SEED_URL);
+    Queue<String> q = new Queue();
+    q.add(SEED_URL);
+    ArrayList<String> discovered = new ArrayList<String>();
+    discovered.add(SEED_URL);
+    List<String> connections = new List<String>();
+    while(q.peek != null && currentDepth < MAX_DEPTH){
+      currentPage = q.remove();
+      connections = null;
+      Document doc = Jsoup.connect(currentPage).get();
+      Elements links = doc.select("a[href]");
+      for (Element link : links) {
+        if(!connections.contains(link)){
+          connections.add(link);
+          g.connect(currentPage, link);
+          inTemp = indegree.get(link);
+          if(inTemp == null){
+            indegree.put(link, 1);
+          }else{
+            indegree.replace(link, inTemp + 1);
+          }
+        }
+        if(!discovered.contains(link) && currentWidth != MAX_PAGES){
+          discovered.add(link);
+          q.add(link);
+          g.add(link);
+          currentWidth++;
+        }
+      }
+      currentDepth++;
+    }
+    return g;
   }
 }
