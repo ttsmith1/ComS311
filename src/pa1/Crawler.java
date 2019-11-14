@@ -31,7 +31,10 @@ public class Crawler
     this.MAX_DEPTH = maxDepth;
     this.MAX_PAGES = maxPages;
   }
-  
+ 
+  //Time Complexity Cheat Sheet probably correct
+  //http://www.souravsengupta.com/cds2016/lectures/Complexity_Cheatsheet.pdf
+
   /**
    * Creates a web graph for the portion of the web obtained by a BFS of the 
    * web starting with the seed url for this object, subject to the restrictions
@@ -41,20 +44,20 @@ public class Crawler
    */
   public Graph<String> crawl()
   {
-    String currentPage;
-    int currentDepth = 0, currentWidth = 0;
-    Integer inTemp;
+    String currentPage;                                       //O(1)
+    int currentDepth = 0, currentWidth = 0;                   //O(1)
+    Integer inTemp;                                           //O(1)
     HashMap<> indegree = new HashMap<>();
-    indegree.put(SEED_URL, 0);
+    indegree.put(SEED_URL, 0);                                //either O(1 or n)
     Graph<String> g = new Graph<Spring>();
-    g.add(SEED_URL);
+    g.add(SEED_URL);                                          //O(1)
     Queue<String> q = new Queue();
-    q.add(SEED_URL);
+    q.add(SEED_URL);                                          //O(1)
     ArrayList<String> discovered = new ArrayList<String>();
-    discovered.add(SEED_URL);
+    discovered.add(SEED_URL);                                 //O(1)
     List<String> connections = new List<String>();
-    while(q.peek != null && currentDepth < MAX_DEPTH){
-      currentPage = q.remove();
+    while(q.peek != null && currentDepth < MAX_DEPTH){        //O(an amount of time)
+      currentPage = q.remove();                               //O(n)
       connections = null;
       Document doc = Jsoup.connect(currentPage).get();
       Elements links = doc.select("a[href]");
