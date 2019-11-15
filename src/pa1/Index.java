@@ -1,8 +1,11 @@
 package pa1;
 
+import java.util.HashMap;
 import java.util.List;
 
 import api.TaggedVertex;
+
+import pa1.Crawler;
 
 /**
  * Implementation of an inverted index for a web graph.
@@ -11,6 +14,7 @@ import api.TaggedVertex;
  */
 public class Index
 {
+  private List<TaggedVertex<String>> LIST_VERTEX;
   /**
    * Constructs an index from the given list of urls.  The
    * tag value for each url is the indegree of the corresponding
@@ -20,7 +24,7 @@ public class Index
    */
   public Index(List<TaggedVertex<String>> urls)
   {
-    
+    this.LIST_VERTEX = urls;
   }
   
   /**
@@ -29,6 +33,19 @@ public class Index
   public void makeIndex()
   {
     // TODO
+    // String seedUrl;
+    // int maxDepth, maxPages;
+    // //Probably stdin vals
+    // Crawler crawl = new Crawler(seedUrl, maxDepth, maxPages);
+    // Graph<String> g = crawl();
+    // HashMap<> indegree = getIndegree();
+    // List<TaggedVertex<String>> listIndegree;
+    // for(indegree.Entry<String, Integer> entry : indegree.entrySet()){
+    //   TaggedVertex<String> temp = {entry.getKey(), entry.getValue};
+    //   listIndegree.add(temp);
+    // }
+    // Index ind = new Index(listIndegree);
+    
   }
   
   /**
