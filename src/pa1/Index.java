@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import api.TaggedVertex;
-
+import api.Util;
 import pa1.Crawler;
 
 /**
@@ -15,6 +15,8 @@ import pa1.Crawler;
 public class Index
 {
   private List<TaggedVertex<String>> LIST_VERTEX;
+  private List<String> LIST_WORDS;
+  private List<List<TaggedVertex<String>>> LIST_W;
   /**
    * Constructs an index from the given list of urls.  The
    * tag value for each url is the indegree of the corresponding
@@ -33,19 +35,50 @@ public class Index
   public void makeIndex()
   {
     // TODO
-    // String seedUrl;
-    // int maxDepth, maxPages;
-    // //Probably stdin vals
-    // Crawler crawl = new Crawler(seedUrl, maxDepth, maxPages);
-    // Graph<String> g = crawl();
-    // HashMap<> indegree = getIndegree();
-    // List<TaggedVertex<String>> listIndegree;
-    // for(indegree.Entry<String, Integer> entry : indegree.entrySet()){
-    //   TaggedVertex<String> temp = {entry.getKey(), entry.getValue};
-    //   listIndegree.add(temp);
-    // }
-    // Index ind = new Index(listIndegree);
-    
+    int len = LIST_VERTEX.size(), listIndex;
+    E temp;
+    String str;
+    String[] split;
+    TaggedVertex<String> taggedVertex;
+    List<TaggedVertex<String>> listW;
+    List<String> listWords;
+    List<List<TaggedVertex<String>>> listTuples;
+    List<TaggedVertex<String>> tuples;
+    for(int i = 0; i < len; i++){
+      listW = null;
+      temp = LIST_VERTEX.get(i).getVertexData();
+      str = Jsoup.connect(temp).get().body().text();
+      split = str.split(" ");
+      for(int j = 0; j < split.length; j++){
+        Util.stripPunctuation(split[j]);
+        if(!isStopWord(split[j])){
+          if(listW.contains(split[j])){
+            taggedVertex  = listW.get(j);
+            listIndex = listW.indexOf(taggedVertex);
+            taggedVertex = taggedVertex(taggedVertex.getVertexData(), taggedVertex.getTagValue() + 1);
+            listW.set(listIndex, taggedVertex);
+          }else{
+            taggedVertex = taggedVertex(split[j], 1);
+            listW.add(taggedVertex);
+          }
+        }
+      }
+      //create I
+      for(int j = 0; j < listW.size(); j++){
+        if(listWords.contains(listW.get(j).getVertexData())){
+          listIndex = listWords.indexof(listW.get(j).getVertexData());
+          taggedVertex = taggedVertex(temp, listW.get(j).getTagValue());
+          listTuples.get(listIndex).add(taggedVertex);
+        }else{
+          listWords.add(listW.get(j).getVertexData());
+          tuples = null;
+          tuples.add(taggedVertex(temp, listW.get(j).getTagValue()));
+          listTuples.add(tuples);
+        }
+      }
+    }
+    this.LIST_W = listWords;
+    this.LIST_WORDS = listTuples;
   }
   
   /**

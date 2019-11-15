@@ -42,7 +42,7 @@ public class Crawler
   public Graph<String> crawl()
   {
     String currentPage;
-    int currentDepth = 0, currentWidth = 0;
+    int currentDepth = 0, currentWidth = 0, count = 0;
     // Integer inTemp;
     // HashMap<> indegree = new HashMap<>();
     // indegree.put(SEED_URL, 1);
@@ -56,6 +56,15 @@ public class Crawler
     while(q.peek != null && currentDepth < MAX_DEPTH){
       currentPage = q.remove();
       connections = null;
+      if(count > 49){
+        try{
+          Thread.sleep(3000);
+        }catch (InterruptedException ignore){
+        }
+        count = 0;
+      }else{
+        count++;
+      }
       Document doc = Jsoup.connect(currentPage).get();
       Elements links = doc.select("a[href]");
       for (Element link : links) {
