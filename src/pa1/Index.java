@@ -34,7 +34,6 @@ public class Index
    */
   public void makeIndex()
   {
-    // TODO
     int len = LIST_VERTEX.size(), listIndex;
     E temp;
     String str;
@@ -95,8 +94,26 @@ public class Index
    */
   public List<TaggedVertex<String>> search(String w)
   {
-    // TODO
-    return null;
+    int index, indexIndex, indexIndexIndex, rank;
+    List<TaggedVertex<String>> ret = new List<TaggedVertex<String>>();
+    List<TaggedVertex<String>> temp = new List<TaggedVertex<String>>();
+    if(!LIST_WORDS.contains(w)){
+      return ret;
+    }
+    index = LIST_WORDS.indexOf(w);
+    temp = LIST_W.get(index);
+    for(int i = 0; i < temp.size(); i++){
+      indexIndex = LIST_VERTEX.indexOf(temp.get(i).getVertexData());
+      rank = temp.get(i).getTagValue() * LIST_VERTEX.get(indexIndex).getTagValue();
+      for(int j = 0; j < ret.size(); j++){
+        if(ret.get(j).getTagValue() <= rank){
+          indexIndexIndex = j;
+          break;
+        }
+      }
+      ret.add(TaggedVertex(indexIndexIndex, temp.get(i).getVertexData, rank));
+    }
+    return ret;
   }
 
 
@@ -118,8 +135,36 @@ public class Index
    */
   public List<TaggedVertex<String>> searchWithAnd(String w1, String w2)
   {
-    // TODO
-    return null;
+    int index, index2, indexIndex, indexIndexIndex, rank;
+    List<TaggedVertex<String>> ret = new List<TaggedVertex<String>>();
+    List<TaggedVertex<String>> temp = new List<TaggedVertex<String>>();
+    List<TaggedVertex<String>> temp2 = new List<TaggedVertex<String>>();
+    if(!LIST_WORDS.contains(w1) || !LIST_WORDS.contains(w2)){
+      return ret;
+    }
+    index = LIST_WORDS.indexOf(w1);
+    index2 = LIST_WORDS.indexOf(w2);
+    temp = LIST_W.get(index);
+    temp2 = LIST_W.get(index2);
+    for(int i = 0; i < temp2.size(); i++){
+      if(temp.contains(temp2.get(i))){
+        temp.set(temp.indexOf(temp2.get(i)), TaggedVertex(temp2.get(i).getVertexData(), temp2.get(i).getTagValue() + temp.get(temp.indexOf(temp2.get(i))).getTagValue()));
+      }else{
+        temp.add(temp2.get(i));
+      }
+    }
+    for(int i = 0; i < temp.size(); i++){
+      indexIndex = LIST_VERTEX.indexOf(temp.get(i).getVertexData());
+      rank = temp.get(i).getTagValue() * LIST_VERTEX.get(indexIndex).getTagValue();
+      for(int j = 0; j < ret.size(); j++){
+        if(ret.get(j).getTagValue() <= rank){
+          indexIndexIndex = j;
+          break;
+        }
+      }
+      ret.add(TaggedVertex(indexIndexIndex, temp.get(i).getVertexData, rank));
+    }
+    return ret;
   }
   
   /**
@@ -140,8 +185,36 @@ public class Index
    */
   public List<TaggedVertex<String>> searchWithOr(String w1, String w2)
   {
-    // TODO
-    return null;
+    int index, index2, indexIndex, indexIndexIndex, rank;
+    List<TaggedVertex<String>> ret = new List<TaggedVertex<String>>();
+    List<TaggedVertex<String>> temp = new List<TaggedVertex<String>>();
+    List<TaggedVertex<String>> temp2 = new List<TaggedVertex<String>>();
+    if(!LIST_WORDS.contains(w1) || !LIST_WORDS.contains(w2)){
+      return ret;
+    }
+    index = LIST_WORDS.indexOf(w1);
+    index2 = LIST_WORDS.indexOf(w2);
+    temp = LIST_W.get(index);
+    temp2 = LIST_W.get(index2);
+    for(int i = 0; i < temp2.size(); i++){
+      if(temp.contains(temp2.get(i))){
+        temp.set(temp.indexOf(temp2.get(i)), TaggedVertex(temp2.get(i).getVertexData(), temp2.get(i).getTagValue() + temp.get(temp.indexOf(temp2.get(i))).getTagValue()));
+      }else{
+        temp.add(temp2.get(i));
+      }
+    }
+    for(int i = 0; i < temp.size(); i++){
+      indexIndex = LIST_VERTEX.indexOf(temp.get(i).getVertexData());
+      rank = temp.get(i).getTagValue() * LIST_VERTEX.get(indexIndex).getTagValue();
+      for(int j = 0; j < ret.size(); j++){
+        if(ret.get(j).getTagValue() <= rank){
+          indexIndexIndex = j;
+          break;
+        }
+      }
+      ret.add(TaggedVertex(indexIndexIndex, temp.get(i).getVertexData, rank));
+    }
+    return ret;
   }
   
   /**

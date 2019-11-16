@@ -43,9 +43,6 @@ public class Crawler
   {
     String currentPage;
     int currentDepth = 0, currentWidth = 0, count = 0;
-    // Integer inTemp;
-    // HashMap<> indegree = new HashMap<>();
-    // indegree.put(SEED_URL, 1);
     Graph<String> g = new Graph<Spring>();
     g.add(SEED_URL);
     Queue<String> q = new Queue();
@@ -71,12 +68,6 @@ public class Crawler
         if(!connections.contains(link)){
           connections.add(link);
           g.connect(currentPage, link);
-          // inTemp = indegree.get(link);
-          // if(inTemp == null){
-          //   indegree.put(link, 1);
-          // }else{
-          //   indegree.replace(link, inTemp + 1);
-          // }
         }
         if(!discovered.contains(link) && currentWidth != MAX_PAGES){
           discovered.add(link);
