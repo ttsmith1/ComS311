@@ -46,6 +46,12 @@ public class Index
     for(int i = 0; i < len; i++){
       listW = null;
       temp = LIST_VERTEX.get(i).getVertexData();
+      if((i % 50) == 49){
+        try{
+          Thread.sleep(3000);
+        }catch (InterruptedException ignore){
+        }
+      }
       str = Jsoup.connect(temp).get().body().text();
       split = str.split(" ");
       for(int j = 0; j < split.length; j++){
