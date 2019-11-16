@@ -1,11 +1,19 @@
 package pa1;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import org.jsoup.*;
+import org.jsoup.nodes.*;
+import org.jsoup.select.Elements;
+
 import api.Graph;
+
+
 
 /**
  * Implementation of a basic web crawler that creates a graph of some
@@ -42,17 +50,22 @@ public class Crawler
   public Graph<String> crawl()
   {
     String currentPage;
-    int currentDepth = 0, currentWidth = 0, count = 0;
-    Graph<String> g = new Graph<Spring>();
-    g.add(SEED_URL);
-    Queue<String> q = new Queue();
+    int currentDepth = 0, currentWidth = 0, count = 0, countHash = 0;
+    //Graph<String> g;
+    ArrayList<String> vertices = new ArrayList<String>();
+    ArrayList<List<String>> outgoing = new ArrayList<List<String>>();
+    List<String> currentOutgoing = new ArrayList<String>();
+    HashMap<String, Integer> hash = new HashMap<String, Integer>();
+    Queue<String> q = new LinkedList<String>();
+    vertices.add(SEED_URL);
     q.add(SEED_URL);
+    hash.put(SEED_URL, countHash);
+    countHash++;
     ArrayList<String> discovered = new ArrayList<String>();
     discovered.add(SEED_URL);
-    List<String> connections = new List<String>();
-    while(q.peek != null && currentDepth < MAX_DEPTH){
+    while(q.peek() != null && currentDepth < MAX_DEPTH){
+      currentOutgoing = new ArrayList<String>();
       currentPage = q.remove();
-      connections = null;
       if(count > 49){
         try{
           Thread.sleep(3000);
@@ -62,22 +75,33 @@ public class Crawler
       }else{
         count++;
       }
-      Document doc = Jsoup.connect(currentPage).get();
+      Document doc = null;
+	try {
+		doc = Jsoup.connect(currentPage).get();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
       Elements links = doc.select("a[href]");
       for (Element link : links) {
-        if(!connections.contains(link)){
-          connections.add(link);
-          g.connect(currentPage, link);
+    	String v = link.attr("abs:href");
+        if(!currentOutgoing.contains(v)){
+          currentOutgoing.add(v);
+          //g.connect(currentPage, link);
         }
-        if(!discovered.contains(link) && currentWidth != MAX_PAGES){
-          discovered.add(link);
-          q.add(link);
-          g.add(link);
+        if(!discovered.contains(v) && currentWidth != MAX_PAGES){
+          hash.put(v, countHash);
+          discovered.add(v);
+          q.add(v);
+          vertices.add(v);
           currentWidth++;
+          countHash++;
         }
       }
+      outgoing.add(currentOutgoing);
       currentDepth++;
     }
+    Graph2<String> g = new Graph2<String>(vertices, outgoing, hash);
     return g;
   }
 }
